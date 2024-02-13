@@ -8,7 +8,7 @@ import { ContentGenerationModule } from './content-generation/content-generation
 import { AnalyticsModule } from './analytics/analytics.module';
 import { LlmModule } from './llm/llm.module';
 import { CoreModule } from './core/core.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ContextModule } from './libs/context/context.module';
 import { CustomLoggerModule } from './libs/logger/logger.module';
 @Module({
