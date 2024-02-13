@@ -5,30 +5,50 @@ import {
   Module,
   NestModule,
 } from '@nestjs/common';
-import { LoggerKey, CustomLoggerI } from './interface/logs.interface';
+import {
+  LoggerKey,
+  CustomLoggerI,
+  LoggerBaseKey,
+} from './interface/logs.interface';
 import { CustomLoggerService } from './logger.service';
 import { NestJsLoggerServiceAdapter } from './logger-adpater.service';
 import * as morgan from 'morgan';
 import { ConfigModule } from '@nestjs/config';
 import { ContextModule } from '../context/context.module';
-import { INQUIRER } from '@nestjs/core';
-import { ContextStorageServiceKey } from '../context/interface/context.storage.interface';
+import {
+  WinstonLogger,
+  WinstonLoggerTransportsKey,
+} from './winston.logger.service';
+import ConsoleTransport from './transports/console.transport';
+import FileTransport from './transports/file.transport';
 
 @Global()
 @Module({
-  imports: [ConfigModule, ContextModule],
+  imports: [ContextModule, ConfigModule],
   controllers: [],
   providers: [
     {
+      provide: LoggerBaseKey,
+      useClass: WinstonLogger,
+    },
+    {
       provide: LoggerKey,
       useClass: CustomLoggerService,
-      // inject: [INQUIRER, ContextStorageServiceKey]
     },
     {
       provide: NestJsLoggerServiceAdapter,
       useFactory: (logger: CustomLoggerI) =>
         new NestJsLoggerServiceAdapter(logger),
       inject: [LoggerKey],
+    },
+    {
+      provide: WinstonLoggerTransportsKey,
+      useFactory: () => {
+        const transports = [];
+        transports.push(ConsoleTransport.createColorize());
+        transports.push(FileTransport.create());
+        return transports;
+      },
     },
   ],
   exports: [LoggerKey, NestJsLoggerServiceAdapter],
@@ -37,7 +57,6 @@ export class CustomLoggerModule implements NestModule {
   constructor(
     @Inject(LoggerKey)
     private logger: CustomLoggerI,
-    // private configService: ConfigService,
   ) {}
 
   configure(consumer: MiddlewareConsumer): void {

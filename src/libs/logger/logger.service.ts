@@ -12,6 +12,7 @@ import {
   ContextStorageServiceKey,
 } from '../context/interface/context.storage.interface';
 
+
 @Injectable({ scope: Scope.TRANSIENT })
 export class CustomLoggerService implements CustomLoggerI {
   private sourceClass: string;
@@ -22,17 +23,17 @@ export class CustomLoggerService implements CustomLoggerI {
   constructor(
     @Inject(LoggerBaseKey)
     private logger: CustomLoggerI,
-    // configService: ConfigService,
-    // @Inject(INQUIRER)
-    // parentClass: object,
-    // @Inject(ContextStorageServiceKey)
-    // private contextStorageInterface: ContextStorageInterface,
+    configService: ConfigService,
+    @Inject(INQUIRER)
+    parentClass: object,
+    @Inject(ContextStorageServiceKey)
+    private contextStorageInterface: ContextStorageInterface,
   ) {
-    this.sourceClass = 'name'; // parentClass?.constructor?.name;
+    this.sourceClass = parentClass?.constructor?.name;
 
-    this.organization = 'ORGANIZATION'; //configService.get<string>('ORGANIZATION');
-    this.context = 'CONTEXT'; //configService.get<string>('CONTEXT');
-    this.app = 'APP'; //configService.get<string>('APP');
+    this.organization = configService.get<string>('ORGANIZATION');
+    this.context = configService.get<string>('CONTEXT');
+    this.app = configService.get<string>('APP');
   }
 
   log(
@@ -64,16 +65,18 @@ export class CustomLoggerService implements CustomLoggerI {
   startProfile(id: string) {
     this.logger.startProfile(id);
   }
+  
+
 
   private getLogData(data?: LogDataI) {
-    return {
-      organization: data ? data?.organizations : this.organization,
-      context: data ? data?.context : this.context,
-      app: data ? data?.app : this.app,
-      sourceClass: data ? data?.sourceClass : this.sourceClass,
-      // correlationId: data
-      //   ? data.correlationId
-      //   : this.contextStorageInterface.getContextId(),
-    };
+      return {
+        ...data,
+        organization: data?.organizations || this.organization,
+        context: data?.context || this.context,
+        app: data?.app || this.app,
+        sourceClass: data?.sourceClass || this.sourceClass,
+        correlationId:
+          data?.correlationId || this.contextStorageInterface.getContextId(),
+      };
   }
 }
