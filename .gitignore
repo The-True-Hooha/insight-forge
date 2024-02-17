@@ -44,3 +44,4 @@ lerna-debug.log*
 .env*.production
 .env*.stage.production
 .env.stage.dev
+package-lock.json

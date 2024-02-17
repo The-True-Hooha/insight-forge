@@ -21,12 +21,14 @@ import {
 } from './winston.logger.service';
 import ConsoleTransport from './transports/console.transport';
 import FileTransport from './transports/file.transport';
+import { LogService } from './log.service';
 
 @Global()
 @Module({
   imports: [ContextModule, ConfigModule],
   controllers: [],
   providers: [
+  LogService,
     {
       provide: LoggerBaseKey,
       useClass: WinstonLogger,
@@ -50,6 +52,7 @@ import FileTransport from './transports/file.transport';
         return transports;
       },
     },
+    
   ],
   exports: [LoggerKey, NestJsLoggerServiceAdapter],
 })
