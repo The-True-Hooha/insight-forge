@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1707838214370,
+      "tag": "0000_wakeful_black_tom",
+      "breakpoints": true
+    }
+  ]
+}
