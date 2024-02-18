@@ -47,19 +47,19 @@ export class CustomLoggerService implements CustomLoggerI {
   debug(message: string, data?: LogDataI, profile?: string) {
     return this.logger.debug(message, this.getLogData(data), profile);
   }
-  info(message: string, data?: LogDataI, profile?: string): void {
+  info(message: string, data?: LogDataI, profile?: string) {
     return this.logger.info(message, this.getLogData(data), profile);
   }
-  warn(message: string, data?: LogDataI, profile?: string): void {
+  warn(message: string, data?: LogDataI, profile?: string) {
     return this.logger.warn(message, this.getLogData(data), profile);
   }
-  error(message: string, data?: LogDataI, profile?: string): void {
+  error(message: string, data?: LogDataI, profile?: string){
     return this.logger.error(message, this.getLogData(data), profile);
   }
-  fatal(message: string, data?: LogDataI, profile?: string): void {
+  fatal(message: string, data?: LogDataI, profile?: string) {
     return this.logger.fatal(message, this.getLogData(data), profile);
   }
-  emergency(message: string, data?: LogDataI, profile?: string): void {
+  emergency(message: string, data?: LogDataI, profile?: string) {
     return this.logger.emergency(message, this.getLogData(data), profile);
   }
   startProfile(id: string) {
