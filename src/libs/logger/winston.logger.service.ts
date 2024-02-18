@@ -59,7 +59,7 @@ export class WinstonLogger implements CustomLoggerI {
             info.stack = info.error.stack;
             info.error = undefined; // did this to ensure clarity and reduce error stack trace
           }
-          info.label = `${info.organization}.${info.context.toUpperCase()}.${info.app.toUpperCase()}`;;
+          info.label = `${info.organization?.toUpperCase()}.${info.context?.toUpperCase()}.${info.app.toUpperCase()}`;;
           return info;
         })(),
         winston.format.metadata({

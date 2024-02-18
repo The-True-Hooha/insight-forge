@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 4000;
   app.useLogger(app.get(NestJsLoggerServiceAdapter));
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`)
